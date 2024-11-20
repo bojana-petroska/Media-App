@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import configs from '../configs/env.js';
+import configs from './env.js';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -13,12 +13,3 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: true,
 });
-
-export const connectDB = async () => {
-  try {
-    await AppDataSource.initialize();
-    console.log('Database connection successful');
-  } catch (err) {
-    console.error('Database connection', err);
-  }
-};

@@ -16,7 +16,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # container_name: news_app
     ports:
       - "5004:5004"
     depends_on: 
