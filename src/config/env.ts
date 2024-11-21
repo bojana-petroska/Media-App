@@ -10,6 +10,9 @@ const configs = {
     POSTGRES_USER: process.env.POSTGRES_USER || 'news_admin',
     POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD || 'news_admin',
     POSTGRES_DB: process.env.POSTGRES_DB || 'news_app_db',
+  },
+  auth : {
+    JWT_SECRET: process.env.JWT_SECRET || 'a5c0effbf8a398bface402709bd41970e057b217b5b52c1d580851198f92767898e0a32088cb05a032a683e6ad2f64c6172325df6f4e43d3d0768ccc61298273',
   }
 };
 
