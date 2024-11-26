@@ -14,3 +14,12 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: true,
 });
+
+export const connectDB = async () => {
+  try {
+    await AppDataSource.initialize();
+    console.log('Database connection successful');
+  } catch (err) {
+    console.error('Database connection', err);
+  }
+};

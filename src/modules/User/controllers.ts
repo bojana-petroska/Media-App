@@ -14,7 +14,7 @@ const registerUser = async (req: Request, res: Response) => {
     const userExists = await userRepository.findOneBy({ email });
 
     if (userExists) {
-      res.status(409).send({ message: 'Email already in use' });
+      res.status(409).send({ message: 'Email is already used.' });
       return;
     }
 
@@ -45,10 +45,15 @@ const loginUser = async (req: Request, res: Response) => {
     if (!configs.auth.JWT_SECRET) {
       throw new Error('JWT_SECRET is not defined');
     }
-    const token = jwt.sign({ userId: userExists.id }, configs.auth.JWT_SECRET, {
+    const token = jwt.sign({ id: userExists.id }, configs.auth.JWT_SECRET, {
       expiresIn: '1h',
     });
-    res.status(200).send({ message: 'User logged in successfully', token });
+    res
+      .status(200)
+      .send({
+        message: `User logged in successfully ${userExists.userName} ${userExists.email} ${userExists.id}`,
+        token,
+      });
   } catch (error) {
     res.status(500).send({ message: 'Error logging in user', error });
   }
@@ -56,15 +61,16 @@ const loginUser = async (req: Request, res: Response) => {
 
 const profileUser = async (req: Request, res: Response) => {
   const userId = req.user?.id;
+  console.log('User ID:', userId);
   try {
     const user = await userRepository.findOneBy({ id: userId });
-
+    console.log('User:', user);
     if (!user) {
       res.status(404).send({ message: 'User not found' });
       return;
     }
 
-    res.status(200).send(user);
+    res.status(200).send({user});
   } catch (error) {}
   res.send({ message: 'User profile fetched successfully' });
 };

@@ -1,8 +1,12 @@
 import dotenv from 'dotenv';
 
-dotenv.config();
+const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : process.env.NODE_ENV === 'test' ? '.env.test' : '.env';
+
+dotenv.config({path: envFile});
 
 const configs = {
+  NODE_ENV: process.env.NODE_ENV,
+  HOST: process.env.HOST || 'postgres',
   PORT: process.env.PORT || 5004,
   database: {
     POSTGRES_HOST: process.env.POSTGRES_HOST || 'postgres',
