@@ -1,4 +1,5 @@
 import express from 'express';
+
 import configs from './config/env.js';
 import { connectDB } from './config/database.js';
 import router from './routes.js';

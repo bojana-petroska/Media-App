@@ -1,8 +1,9 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
 import { User } from '../../entities/User.js';
 import { AppDataSource } from '../../config/database.js';
-import jwt from 'jsonwebtoken';
 import configs from '../../config/env.js';
 
 const userRepository = AppDataSource.getRepository(User);
@@ -41,38 +42,31 @@ const loginUser = async (req: Request, res: Response) => {
       res.status(401).send({ message: 'Login credentials are wrong' });
       return;
     }
-
     if (!configs.auth.JWT_SECRET) {
-      throw new Error('JWT_SECRET is not defined');
+      throw new Error('Error in generating token');
     }
     const token = jwt.sign({ id: userExists.id }, configs.auth.JWT_SECRET, {
       expiresIn: '1h',
     });
-    res
-      .status(200)
-      .send({
-        message: `User logged in successfully ${userExists.userName} ${userExists.email} ${userExists.id}`,
-        token,
-      });
+    //TODO: Refresh Token
+    res.status(200).send({ message: 'Login Successful', token });
   } catch (error) {
-    res.status(500).send({ message: 'Error logging in user', error });
+    res.status(500).send({ message: 'Error in Login the User', error });
   }
 };
 
 const profileUser = async (req: Request, res: Response) => {
   const userId = req.user?.id;
-  console.log('User ID:', userId);
   try {
     const user = await userRepository.findOneBy({ id: userId });
-    console.log('User:', user);
     if (!user) {
-      res.status(404).send({ message: 'User not found' });
+      res.status(404).send({ message: 'User Not Found' });
       return;
     }
-
-    res.status(200).send({user});
-  } catch (error) {}
-  res.send({ message: 'User profile fetched successfully' });
+    res.status(200).send({ user });
+  } catch (error) {
+    res.status(500).send({ message: 'Error in getting user Profile', error });
+  }
 };
 
 export default {

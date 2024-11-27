@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { Schema } from 'joi';
+import type { Request, Response, NextFunction } from 'express';
+import type { Schema } from 'joi';
 
 const validateRequest =
   (schema: Schema) => (req: Request, res: Response, next: NextFunction) => {
@@ -13,4 +13,4 @@ const validateRequest =
     next();
   };
 
-  export default validateRequest;
+export default validateRequest;

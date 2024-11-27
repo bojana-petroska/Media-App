@@ -1,5 +1,9 @@
 import dotenv from 'dotenv';
-const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : process.env.NODE_ENV === 'test' ? '.env.test' : '.env';
+const envFile = process.env.NODE_ENV === 'production'
+    ? '.env.prod'
+    : process.env.NODE_ENV === 'test'
+        ? '.env.test'
+        : '.env';
 dotenv.config({ path: envFile });
 const configs = {
     NODE_ENV: process.env.NODE_ENV,
@@ -13,7 +17,8 @@ const configs = {
         POSTGRES_DB: process.env.POSTGRES_DB || 'news_app_db',
     },
     auth: {
-        JWT_SECRET: process.env.JWT_SECRET || 'a5c0effbf8a398bface402709bd41970e057b217b5b52c1d580851198f92767898e0a32088cb05a032a683e6ad2f64c6172325df6f4e43d3d0768ccc61298273',
-    }
+        JWT_SECRET: process.env.JWT_SECRET ||
+            'a5c0effbf8a398bface402709bd41970e057b217b5b52c1d580851198f92767898e0a32088cb05a032a683e6ad2f64c6172325df6f4e43d3d0768ccc61298273',
+    },
 };
 export default configs;
