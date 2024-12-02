@@ -33,6 +33,28 @@ const registerUser = async (req: Request, res: Response) => {
   }
 };
 
+// const loginUser = async (req: Request, res: Response) => {
+//   const { email, password } = req.body;
+//   try {
+//     const userExists = await userRepository.findOneBy({ email });
+
+//     if (!userExists || !(await bcrypt.compare(password, userExists.password))) {
+//       res.status(401).send({ message: 'Login credentials are wrong' });
+//       return;
+//     }
+//     if (!configs.auth.JWT_SECRET) {
+//       throw new Error('Error in generating token');
+//     }
+//     const token = jwt.sign({ id: userExists.id }, configs.auth.JWT_SECRET, {
+//       expiresIn: '1h',
+//     });
+//     //TODO: Refresh Token
+//     res.status(200).send({ message: 'Login Successful', token });
+//   } catch (error) {
+//     res.status(500).send({ message: 'Error in Login the User', error });
+//   }
+// };
+
 const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
@@ -49,9 +71,9 @@ const loginUser = async (req: Request, res: Response) => {
       expiresIn: '1h',
     });
     //TODO: Refresh Token
-    res.status(200).send({ message: 'Login Successful', token });
+    res.status(200).send({ message: 'Login successful', token });
   } catch (error) {
-    res.status(500).send({ message: 'Error in Login the User', error });
+    res.status(500).send({ message: 'Error in login the user', error });
   }
 };
 
@@ -60,7 +82,7 @@ const profileUser = async (req: Request, res: Response) => {
   try {
     const user = await userRepository.findOneBy({ id: userId });
     if (!user) {
-      res.status(404).send({ message: 'User Not Found' });
+      res.status(404).send({ message: 'User not found' });
       return;
     }
     res.status(200).send({ user });

@@ -1,7 +1,7 @@
 services: 
   postgres:
     image: postgres:15
-    container_name: postgres-db-news-app
+    container_name: postgres-db-media-app
     ports: 
       - "5433:5432"
     healthcheck:

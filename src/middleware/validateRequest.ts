@@ -1,15 +1,23 @@
 import type { Request, Response, NextFunction } from 'express';
 import type { Schema } from 'joi';
 
-const validateRequest =
-  (schema: Schema) => (req: Request, res: Response, next: NextFunction) => {
-    const { error } = schema.validate(req.body);
-
-    if (error) {
-      res.status(400).json({ message: error.details[0].message });
-      return;
+export const validateRequest =
+  (schema: { body?: Schema; query?: Schema }) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    if (schema.query) {
+      const { error } = schema.query.validate(req.query);
+      if (error) {
+        res.status(400).send({ error: error.details[0].message });
+        return;
+      }
     }
-
+    if (schema.body) {
+      const { error } = schema.body.validate(req.body);
+      if (error) {
+        res.status(400).send({ error: error.details[0].message });
+        return;
+      }
+    }
     next();
   };
 
